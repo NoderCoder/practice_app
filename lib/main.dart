@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice_app/answer.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
@@ -10,19 +11,28 @@ class MyApp extends StatefulWidget {
     // TODO: implement createState
     return MyAppState();
   }
-
 }
 
 class MyAppState extends State<MyApp> {
   int questionIndex = 0;
-  List<String> questions = [
-    "Whats is your favouroute colour ?",
-    "Whate is your favouroite day ?",
-    "How many people do you like ?"
+  var questions = [
+    {
+      'que': "Whats is your favouroute colour ?",
+      'ans': ['red', 'blue', 'yellow']
+    },
+    {
+      'que': "Whats is your favouroute day ?",
+      'ans': ['tues', 'mon', 'sun']
+    },
+    {
+      'que': "Whhen do you get ",
+      'ans': ['10 am', '9 am', 'dosent matter']
+    },
   ];
+
   void answerQuestion() {
     setState(() {
-    questionIndex = questionIndex+ 1;  
+      questionIndex = questionIndex + 1;
     });
     print(questionIndex);
   }
@@ -34,14 +44,14 @@ class MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text("Stateful vs stateless"),
         ),
-        body: Column(
+        body: questionIndex<questions.length ? Column(
           children: [
-            Text(questions[questionIndex]),
-            RaisedButton(child: Text("Answer1"), onPressed: answerQuestion),
-            RaisedButton(child: Text("Answer 2"), onPressed: answerQuestion),
-            RaisedButton(child: Text("Answer 3"), onPressed: answerQuestion)
+            Text(questions[questionIndex]['que'].toString()),
+            ...(questions[questionIndex]['ans'] as List<String>)
+                .map((ans) => Answer(ans, answerQuestion)),
           ],
-        ),
+        )
+        : Center(child: Text("End of questions"))
       ),
     );
   }
